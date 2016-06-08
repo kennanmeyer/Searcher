@@ -1,4 +1,4 @@
-# DrexelSearcher
+# Searcher
 Created by Kennan Meyer for CS530 at Drexel University.
 
 The goal of this system was to improve the existing class searching system at Drexel University by implementing an intuitive search and data dispaly integrated with a planning screen.
