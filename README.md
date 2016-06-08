@@ -8,7 +8,7 @@ To run:
 
 NodeJS must be installed.
 
-Follow installation instructions on angular-seed page.
+Follow installation instructions on angular-seed page (includes npm install).
 
 Navigate to project root folder.
 
