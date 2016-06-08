@@ -1,0 +1,71 @@
+/* app css stylesheet */
+
+body {
+    overflow: hidden;
+    height:100%;
+}
+
+.navbar {
+    background-color: #00335e;
+    border-color: #E7E7E7;
+}
+
+.cover {
+    background-image: url(../resources/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    width:      100%;
+    height:     100%;
+    z-index:    100;
+    top:        0;
+    left:       0;
+    position:   fixed;
+
+}
+
+#left {
+    padding: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+    left: 0;
+    width: 25%;
+    overflow: auto;
+    height:100%;
+    border-right: 1px solid black;
+}
+
+#right {
+    position: absolute;
+    padding-top: 90px;
+    top: 50px;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+    width: 75%;
+    height:96%;
+
+}
+
+.footer {
+    position:absolute;
+    width:100%;
+    height: auto;
+    bottom: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    opacity:    0.95;
+    background-color: blue;
+}

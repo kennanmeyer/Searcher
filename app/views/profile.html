@@ -1,0 +1,34 @@
+<div class="container-fluid" ng-controller="planController">
+    <h1>Profile</h1>
+    <hr>
+        <div class="row">
+            <div class="col-md-3 course-plan">
+                <div class="text-center">
+                    <img src="/app/resources/profile.png" class="img-circle">
+                    <h3>Drexel Student</h3>
+                </div>
+            </div>
+
+            <div class="col-md-9" >
+                    <h4>Saved Plans</h4>
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr ng-repeat="plan in planListList">
+                            <td class="col-md-8">
+                                {{plan.name}}
+                            </td>
+                            <td class="col-md-1"><button class="btn btn-success btn-sm" ng-click="loadPlan($index);$scope.loadPlans=!$scope.loadPlans;$scope.loadedPlan=!$scope.loadedPlan">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </button>
+                            </td>
+                            <td class="col-md-1"><button class="btn btn-danger btn-sm" ng-click="deletePlan($index)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    <hr>
+</div>

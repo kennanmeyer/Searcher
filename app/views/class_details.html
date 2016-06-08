@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="well">
+        <div class="row">
+            <a href="./#/classes">
+                <button type="button" class="btn btn-default glyphicon glyphicon-arrow-left">
+                    Back
+                </button>
+            </a>
+            &nbsp;
+            <button class="btn btn-warning" ng-click="addClass(Class)">
+                Add to Plan  <i class="glyphicon glyphicon-plus"></i>
+            </button>
+        </div>
+        <div class="row">
+            <h3>Details for {{Class.title}}</h3>
+            <table class="table table-hover table-bordered" id="class-table">
+                <thead>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(key, value) in Class">
+                    <td class="col-md-1">
+                        <strong>
+                            {{key}}
+                        </strong>
+                    </td>
+                    <td>
+                        {{ value }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

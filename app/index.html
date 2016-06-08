@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<link rel="stylesheet" type="text/css" href="css/app.css">
+<script src="app.js"></script>
+<script src="services.js"></script>
+<script src="controllers.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<head>
+    <title>Drexel Searcher</title>
+</head>
+    <body ng-app="DrexelSearcher">
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+
+                    </button>
+                    <a class="navbar-brand" href="#">Drexel Searcher
+                    </a>
+
+                </div>
+
+                <div class="collapse navbar-collapse" ng-controller="loginController">
+                    <ul class="nav navbar-nav">
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#profile" ng-show="$scope.isLoggedIn">Drexel Student</a></li>
+                        <li><a href="#/classes" ng-click="$scope.isLoggedIn=!$scope.isLoggedIn" ng-show="$scope.isLoggedIn">Logout</a></li>
+                        <li><a href="#/classes" ng-click="$scope.isLoggedIn=!$scope.isLoggedIn" ng-show="!$scope.isLoggedIn">Login</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+            <div id="left" ng-controller="planController">
+                <div class="panel panel-primary text-center" ng-show="planHome">
+                    <div class="panel-heading"><h4><strong>Plan Your Classes!</strong></h4></div>
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" ng-click="loadedPlan=true;planHome=false;reset()">Create New Plan</button>
+                            <button type="button" class="btn btn-success" ng-click="loadPlans=true;planHome=false;" ng-disabled="planListList.length == 0">Load Plan</button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary text-center" ng-show="loadedPlan">
+                    <div class="panel-heading"><h4><strong>{{pName}}</strong></h4></div>
+                    <div class="panel-body">
+                        <div>
+                            <div ng-show="!planList.length">
+                                Add some classes from the class table!
+                                <a class="glyphicon glyphicon-arrow-right">
+                                </a>
+                            </div>
+                            <table class="table table-hover table-bordered">
+                                <tbody>
+                                    <tr ng-repeat="class in planList">
+                                        <td class="col-md-3">
+                                            {{class.name}}
+                                        </td>
+                                        <td class="col-md-3">
+                                            {{class.crn}}
+                                        </td>
+                                        <td class="col-md-1"><button ng-click="deleteRow($index)">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="button" class="btn btn-primary" ng-disabled="planList.length == 0" ng-click="savePlanScreen=true;loadedPlan=false;">Save</button>
+                        <button type="button" class="btn btn-info" ng-disabled="planList.length == 0" ng-click="sharePlan=true;loadedPlan=false;">Share</button>
+                        <button type="button" class="btn btn-danger" ng-click="planHome=true;loadedPlan=false;reset()">Back</button>
+                    </div>
+                </div>
+                <div class="panel panel-primary" ng-show="savePlanScreen">
+                    <div class="panel-heading"><h4><strong>Save Plan</strong></h4></div>
+                    <div class="panel-body">
+                        <div class="text-center">
+                            Plan Name:<br><input type="text" name="name" ng-model="post.name" placeholder="{{pName}}" />
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="button" class="btn btn-primary" ng-disabled="!post.name" ng-click="savePlan(post.name);loadedPlan=true;savePlanScreen=false;">Save</button>
+                        <button type="button" class="btn btn-danger" ng-click="loadedPlan=true;savePlanScreen=false;">Cancel</button>
+                    </div>
+                </div>
+                <div class="panel panel-primary" ng-show="sharePlan">
+                    <div class="panel-heading"><h4><strong>Share Plan</strong></h4></div>
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <div class="well text-left">
+                            <h5>Email:</h5>
+                            <table class="table table-hover table-bordered">
+                                <tbody>
+                                <tr ng-repeat="email in shareListEmail">
+                                    <td class="col-md-8">
+                                        {{email}}
+                                    </td>
+                                    <td class="col-md-1"><button class="btn btn-danger btn-sm" ng-click="removeShareListEmail($index)">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="input-group">
+                                <input type="email" class="form-control" ng-model="emailShare" placeholder="Add Email...">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" ng-disabled="!emailShare" ng-click="addShareListEmail(emailShare);emailShare=null">Add Email</button>
+                                </span>
+                            </div>
+
+                            </div>
+                            <div class="well text-left">
+
+                            <h5>User:</h5>
+                            <table class="table table-hover table-bordered">
+                                <tbody>
+                                <tr ng-repeat="user in shareListUser">
+                                    <td class="col-md-8">
+                                        {{user}}
+                                    </td>
+                                    <td class="col-md-1"><button class="btn btn-danger btn-sm" ng-click="removeShareListUser($index)">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="userShare" placeholder="Add User...">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" ng-disabled="!userShare" ng-click="addShareListUser(userShare);userShare=null">Add User</button>
+                                </span>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="button" class="btn btn-primary" ng-disabled="shareListUser.length == 0 && shareListEmail.length == 0" ng-click="sendPlan();userShare=null;emailShare=null;loadedPlan=true;sharePlan=false;">Share</button>
+                        <button type="button" class="btn btn-danger" ng-click="loadedPlan=true;sharePlan=false;">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary" ng-show="loadPlans">
+                    <div class="panel-heading"><h4><strong>Load Plan</strong></h4></div>
+                    <div class="panel-body">
+                        <div class="text-center" >
+                            <div ng-show="!planListList.length">No Class Plans Saved!</div>
+                            <table class="table table-hover table-bordered">
+                                <tbody>
+                                <tr ng-repeat="plan in planListList">
+                                    <td class="col-md-8">
+                                        {{plan.name}}
+                                    </td>
+                                    <td class="col-md-1"><button class="btn btn-success btn-sm" ng-click="loadPlan($index)">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </button>
+                                    </td>
+                                    <td class="col-md-1"><button class="btn btn-danger btn-sm" ng-click="deletePlan($index)">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="button" class="btn btn-warning" ng-click="planHome=true;loadPlans=false;">Cancel</button>
+                    </div>
+                </div>
+                <div class="alert alert-info alert-dismissible" role="alert" ng-show="NewplanList" ng-click="loadrecievedPlan()">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>A User Shared a plan with you!</strong> Click this box to load the shared plan.
+                </div>
+            </div>
+            <div id="right">
+                <ng-view></ng-view>
+            </div>
+    </body>
+</html>

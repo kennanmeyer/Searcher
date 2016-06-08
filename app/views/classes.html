@@ -1,0 +1,108 @@
+<link rel="stylesheet" type="text/css" href="css/classes.css" xmlns="http://www.w3.org/1999/html">
+
+
+<div class="container-fluid well fixed-top" >
+    <div class="input-group" id="search-bar">
+        <input type="text" ng-model="search.title" class="form-control" placeholder="Search Course Title" value="">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-warning" ng-show="search.title" ng-click="resetSearch()">Clear</button>
+
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Advanced Search <span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                    <strong>Class #:</strong><input type="text" ng-model="search.number" size="8">
+                </li>
+                <li>
+                    <strong>Subject:</strong><input type="text" ng-model="search.subject" size="8">
+                </li>
+                <li>
+                    <strong>Professor:</strong>:<input type="text" ng-model="search.professor" size="6">
+                </li>
+                <li role="separator" class="divider"></li>
+                <li><a ng-click="resetSearch()">Reset</a></li>
+
+                <li role="separator" class="divider"></li>
+                Term:  <select>
+                <option value="sp2015">Spring 2015</option>
+                <option value="su2015">Summer 2015</option>
+                <option value="fa2015">Fall 2015</option>
+                <option value="wi2015">Winter 2015</option>
+                <option value="sp2016">Spring 2016</option>
+                <option value="su2016">Summer 2016</option>
+                <option value="fa2016">Fall 2016</option>
+                <option value="wi2016">Winter 2016</option>
+            </select>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container-fluid class-table">
+    <div class="text-center" ng-show="loading">
+        <h2>Loading Classes....</h2>
+    </div>
+    <table class="table table-hover table-bordered" id="class-table" ng-show="finished">
+        <thead>
+        <tr>
+            <th>Class Subject</th>
+            <th>Course Number</th>
+            <th>CRN</th>
+            <th>Course Title</th>
+            <th>Professor</th>
+            <th>Day(s)</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Size</th>
+            <th>Enrolled</th>
+            <th>Add to Plan</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="class in classList |  filter: search:strict | orderBy: 'subject'">
+            <td class="col-md-1">
+                    {{class.subject}}
+            </td>
+            <td class="col-md-1">
+                    {{class.number}}
+            </td>
+            <td>
+                <a ng-href="#/classes/{{class.crn}}">
+                    {{class.crn}}
+                </a>
+            </td>
+            <td>
+                {{class.title}}
+            </td>
+            <td class="col-md-3">
+                {{class.professor}}
+            </td>
+            <td class="col-md-1">
+                {{class.days}}
+            </td>
+            <td class="col-md-1">
+                {{class.start_time}}
+            </td>
+            <td class="col-md-1">
+                {{class.end_time}}
+            </td>
+            <td class="col-md-1">
+                {{class.size}}
+            </td>
+            <td class="col-md-1">
+                {{class.enrolled}}
+            </td>
+            <td class="col-md-1">
+
+            <button class="btn btn-default btn-xs" ng-click="addClass(class)" ng-if="class.enrolled != 'CLOSED' && class.enrolled <= class.size">
+                <i class="glyphicon glyphicon-plus"></i>
+            </button>
+                <button class="btn btn-danger btn-xs" ng-if="class.enrolled == 'CLOSED'" disabled>
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+            <!--<button class="btn btn-default btn-xs" ng-click="addClass(class)" ng-if="checkCRN(class.crn)">-->
+                <!--<i class="glyphicon glyphicon-ok"></i>-->
+            <!--</button>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
